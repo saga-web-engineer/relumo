@@ -7,7 +7,6 @@ import { Logo } from '@/app/components/Logo';
 import { auth, signIn } from '@/app/lib/auth';
 import { metadata as defaultMetadata } from '@/app/utils/metadata';
 import { SITE_NAME } from '@/app/utils/siteSettings';
-import { ThreadDrawer } from './threads/components/ThreadDrawer';
 
 export const metadata: Metadata = {
   ...defaultMetadata,
@@ -24,7 +23,6 @@ export default async function Home() {
 
   return (
     <>
-      <ThreadDrawer />
       <div className="pb-2 pt-12 flex flex-col h-full md:pt-24">
         <Logo width={200} height={47} className="mx-auto w-4/5 max-w-md" />
         <p className="[word-break:keep-all] [overflow-wrap:anywhere] my-auto pt-8 text-2xl leading-relaxed sm:leading-[1.85] sm:text-4xl">
