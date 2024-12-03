@@ -8,7 +8,7 @@ import { LoadingMessage } from '@/app/components/loading/LoadingMessage';
 import { auth } from '@/app/lib/auth';
 import prisma from '@/app/lib/db';
 import { ThreadConversationList } from '@/app/threads/[threadId]/components/ThreadConversationList';
-import { ThreadPostDialog } from '@/app/threads/[threadId]/components/ThreadPostDialog';
+import { ThreadPostDrawer } from '@/app/threads/[threadId]/components/ThreadPostDrawer';
 import { metadata as defaultMetadata } from '@/app/utils/metadata';
 import { POSTS_PER_PAGE, SITE_NAME, SITE_URL } from '@/app/utils/siteSettings';
 
@@ -64,7 +64,7 @@ export default async function ThreadConversation({ params, searchParams }: Param
           postsPerPage={POSTS_PER_PAGE}
         />
       </Suspense>
-      <ThreadPostDialog threadId={threadId} />
+      <ThreadPostDrawer threadId={threadId} />
     </LayoutPadding>
   );
 }
