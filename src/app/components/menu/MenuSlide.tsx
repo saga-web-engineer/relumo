@@ -3,6 +3,7 @@
 import { AvatarFallback } from '@radix-ui/react-avatar';
 import * as VisuallyHidden from '@radix-ui/react-visually-hidden';
 import { LogOut, UserCircle2 } from 'lucide-react';
+import { Session } from 'next-auth';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useState, type FC } from 'react';
@@ -13,7 +14,6 @@ import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/co
 import { deleteAccount, signOutAuth } from '@/app/components/menu/actions';
 import { NavMenu } from '@/app/components/nav/NavMenu';
 import { SYSTEM_VERSION } from '@/app/utils/siteSettings';
-import { Session } from 'next-auth';
 
 interface Props {
   currentUser: Session['user'] | undefined;

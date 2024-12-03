@@ -1,13 +1,14 @@
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
-import { AtSign, CalendarDays, Frown, UserRound } from 'lucide-react';
+import { AtSign, BadgeCheck, CalendarDays, Frown, UserRound } from 'lucide-react';
 import type { FC } from 'react';
 
 import prisma from '@/app/lib/db';
 import { ThreadPostPagination } from '@/app/threads/[threadId]/components/ThreadPostPagination';
-import { SHOW_PAGES } from '@/app/utils/siteSettings';
 import { ThreadReactionList } from '@/app/threads/[threadId]/components/ThreadReactionList';
+import { getBadge } from '@/app/threads/components/utils/getBadge';
+import { SHOW_PAGES } from '@/app/utils/siteSettings';
 
 interface Props {
   threadId: string;
@@ -55,33 +56,44 @@ export const ThreadConversationList: FC<Props> = async ({
             {'< ﾋﾟｴﾝ'}
           </li>
         ) : (
-          posts.map((post, index) => (
-            <li className="border-t last-of-type:border-b p-4 pt-2" key={post.id}>
-              <div className="grid gap-1">
-                <div className="flex items-center gap-4">
-                  <div className="text-sm text-muted-foreground">
-                    #{totalPosts - (currentPage - 1) * postsPerPage - index}
+          await Promise.all(
+            posts.map(async (post, index) => {
+              // isDeveloper を取得
+              const badge = await getBadge(post.userId);
+              const isDeveloper = badge?.isDeveloper;
+
+              return (
+                <li className="border-t last-of-type:border-b p-4 pt-2" key={post.id}>
+                  <div className="grid gap-1">
+                    <div className="flex items-center gap-4">
+                      <div className="text-sm text-muted-foreground">
+                        #{totalPosts - (currentPage - 1) * postsPerPage - index}
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                        <CalendarDays size={'1em'} />
+                        {dayjs(post.createdAt).tz().format('YYYY-MM-DD HH:mm')}
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <UserRound size={'1rem'} />
+                      <span className="flex items-center gap-1">
+                        {post.user.name}
+                        {isDeveloper && <BadgeCheck className="text-primary" size={'0.75rem'} />}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                      <AtSign size={'1rem'} />
+                      *****{post.user.id.slice(-10)}
+                    </div>
+                    <div className="mt-4">
+                      <pre className="whitespace-pre-wrap break-all text-lg">{post.content}</pre>
+                    </div>
+                    <ThreadReactionList postId={post.id} />
                   </div>
-                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                    <CalendarDays size={'1em'} />
-                    {dayjs(post.createdAt).tz().format('YYYY-MM-DD HH:mm')}
-                  </div>
-                </div>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <UserRound size={'1rem'} />
-                  {post.user.name}
-                </div>
-                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <AtSign size={'1rem'} />
-                  *****{post.user.id.slice(-10)}
-                </div>
-                <div className="mt-4">
-                  <pre className="whitespace-pre-wrap break-all text-lg">{post.content}</pre>
-                </div>
-                <ThreadReactionList postId={post.id} />
-              </div>
-            </li>
-          ))
+                </li>
+              );
+            })
+          )
         )}
       </ol>
       <div className="mt-10">

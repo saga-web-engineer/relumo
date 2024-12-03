@@ -5,6 +5,7 @@ interface Thread {
   id: string;
   bio: string;
   userName: string;
+  userId: string;
   latestDate: string;
   postCount: number;
 }
@@ -20,6 +21,7 @@ export const getThreads = async ({ currentPage, threadsPerPage }: Args) => {
       t.id,
       t.title,
       t.bio,
+      t."userId",
       COALESCE(MAX(p."createdAt"), t."createdAt") AS "latestDate",
       COUNT(p.id) AS "postCount",
       u.name AS "userName"
@@ -30,7 +32,7 @@ export const getThreads = async ({ currentPage, threadsPerPage }: Args) => {
     LEFT JOIN
       "User" u ON t."userId" = u.id
     GROUP BY
-      t.id, t.title, t.bio, t."createdAt", u.name
+      t.id, t.title, t.bio, t."createdAt", t."userId", u.name
     ORDER BY
       "latestDate" DESC
     LIMIT ${threadsPerPage}
