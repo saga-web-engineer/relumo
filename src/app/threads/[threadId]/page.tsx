@@ -9,6 +9,7 @@ import { auth } from '@/app/lib/auth';
 import prisma from '@/app/lib/db';
 import { ThreadConversationList } from '@/app/threads/[threadId]/components/ThreadConversationList';
 import { ThreadPostDrawer } from '@/app/threads/[threadId]/components/ThreadPostDrawer';
+import { ThreadPostDrawerButton } from '@/app/threads/[threadId]/components/ThreadPostDrawerButton';
 import { metadata as defaultMetadata } from '@/app/utils/metadata';
 import { POSTS_PER_PAGE, SITE_NAME, SITE_URL } from '@/app/utils/siteSettings';
 
@@ -50,6 +51,10 @@ export default async function ThreadConversation({ params, searchParams }: Param
       },
     })) || {};
 
+  const totalPosts = await prisma.post.count({
+    where: { threadId },
+  });
+
   // クエリパラメーターからページ番号を取得（デフォルトは1）
   const currentPage = parseInt((await searchParams).page || '1', 10);
 
@@ -64,7 +69,11 @@ export default async function ThreadConversation({ params, searchParams }: Param
           postsPerPage={POSTS_PER_PAGE}
         />
       </Suspense>
-      <ThreadPostDrawer threadId={threadId} />
+      {totalPosts < 1000 && (
+        <ThreadPostDrawer threadId={threadId}>
+          <ThreadPostDrawerButton />
+        </ThreadPostDrawer>
+      )}
     </LayoutPadding>
   );
 }

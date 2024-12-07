@@ -47,7 +47,7 @@ export const InviteCodeForm: FC = () => {
             {
               'cursor-not-allowed disabled:pointer-events-auto hover:bg-primary': !form.valid,
             },
-            'block w-[min(100%,320px)] mx-auto py-3 mt-6 md:text-lg md:py-4 !h-auto text-foreground'
+            'block w-[min(100%,320px)] mx-auto py-3 mt-6 md:text-lg md:py-4 !h-auto text-foreground',
           )}
           disabled={!form.valid}
         >

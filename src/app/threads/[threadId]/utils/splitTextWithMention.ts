@@ -6,7 +6,7 @@
  */
 export const splitTextWithMention = (text: string) => {
   // 正規表現で「>> 数字」を含む部分を分割
-  const regex = /(.*?)(>> \d+)/g;
+  const regex = /([\s\S\r\n]*?)(>> \d+)/g;
 
   // 分割結果を格納する配列
   const result: string[] = [];

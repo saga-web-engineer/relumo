@@ -10,7 +10,7 @@ export const ThreadPostButton: FC = () => {
     <div
       className={cn(
         buttonVariants({ variant: 'default' }),
-        'fixed right-4 bottom-[calc(env(safe-area-inset-bottom)+1rem)] p-0 rounded-full size-[60px]'
+        'fixed right-4 bottom-[calc(env(safe-area-inset-bottom)+1rem)] p-0 rounded-full size-[60px]',
       )}
     >
       <MessageSquareText className="!size-6 text-white" />

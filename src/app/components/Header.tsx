@@ -12,7 +12,7 @@ export const Header: FC = async () => {
   const currentUser = session?.user;
 
   return (
-    <header className="sticky py-4 top-0 border-b backdrop-blur bg-background/50">
+    <header className="sticky py-4 top-0 border-b backdrop-blur bg-background/50 z-10">
       <Wrapper className="flex justify-between items-center">
         <h1>
           <Link href="/">

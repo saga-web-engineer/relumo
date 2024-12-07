@@ -36,7 +36,7 @@ export const getUserByInviteCode = async (_prevState: unknown, formData: FormDat
       },
       data: {
         isLicense: true,
-        inviterId: inviter.id
+        inviterId: inviter.id,
       },
     });
 

@@ -1,10 +1,12 @@
 import { User } from '@prisma/client';
-import { AtSign, BadgeCheck, UserCircle2, UserRound } from 'lucide-react';
+import { AtSign, BadgeCheck, CalendarDays, UserCircle2, UserRound } from 'lucide-react';
 import type { FC } from 'react';
 
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { cn } from '@/lib/utils';
+
+import dayjs from '@/app/utils/dayjs';
 
 interface Props {
   invitee: User[] | undefined;
@@ -51,10 +53,14 @@ export const InviteTabs: FC<Props> = ({ invitee, inviter }) => {
                   <AtSign className="min-w-4" size={'1rem'} />
                   *****{inviteeItem?.id?.slice(-10)}
                 </p>
+                <p className="flex items-center gap-2">
+                  <CalendarDays className="min-w-4" size={'1em'} />
+                  {dayjs(inviteeItem.createdAt).tz().format('YYYY-MM-DD')}
+                </p>
               </li>
             ))
           ) : (
-            <li>まだ招待したお友達がいません。ぜひお友達をRelumoに誘ってね！</li>
+            <li className="p-4">まだ招待したお友達がいません。ぜひお友達をRelumoに誘ってね！</li>
           )}
         </ul>
       </TabsContent>

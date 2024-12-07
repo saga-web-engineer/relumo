@@ -7,9 +7,9 @@ import { auth } from '@/app/lib/auth';
 import prisma from '@/app/lib/db';
 import { InviteTabs } from '@/app/mypage/component/InviteTabs';
 import { SettingForm } from '@/app/mypage/component/SettingForm';
+import dayjs from '@/app/utils/dayjs';
 import { metadata as defaultMetadata } from '@/app/utils/metadata';
 import { SITE_NAME, SITE_URL } from '@/app/utils/siteSettings';
-import dayjs from '../utils/dayjs';
 
 export const metadata: Metadata = {
   ...defaultMetadata,

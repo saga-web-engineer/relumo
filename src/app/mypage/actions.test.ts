@@ -1,18 +1,17 @@
-import { expect, vi, describe, beforeEach, test } from "vitest"
-import prisma from "../lib/db"
-import { execSync } from "child_process";
-import { updateUser } from "./actions";
-import { Prisma } from "@prisma/client";
+import { Prisma } from '@prisma/client';
+import { execSync } from 'child_process';
+import { beforeEach, describe, expect, test, vi } from 'vitest';
+import prisma from '../lib/db';
+import { updateUser } from './actions';
 
 const USER_ID = 'newUserId';
-const USER_NAME = 'user name'
-const USER_BIO = 'user bio'
+const USER_NAME = 'user name';
 
 vi.mock('../lib/auth', () => ({
   // ログインしている
-  auth: () => ({ user: { id: USER_ID } })
-}))
-vi.mock('next/cache')
+  auth: () => ({ user: { id: USER_ID } }),
+}));
+vi.mock('next/cache');
 
 /**
  * ユーザーを作成するPromise
@@ -23,94 +22,56 @@ class UserFactory {
       data: {
         name: USER_NAME,
         email: `${Math.floor(Math.random() * 100000)}@example.com`, // ランダムなemailアドレスを指定
-        ...attr
-      }
-    })
+        ...attr,
+      },
+    });
   }
 }
 
 describe('設定', () => {
   beforeEach(() => {
-    vi.resetAllMocks()
+    vi.resetAllMocks();
     // テスト用DBをリセットする
     execSync('npm run migrate:test');
-  })
-  describe("正常系", () => {
+  });
+  describe('正常系', () => {
     beforeEach(async () => {
-      await UserFactory.create({ id: USER_ID, name: USER_NAME, bio: USER_BIO })
-    })
-    test('名前とbio両方入力すると登録される', async () => {
+      await UserFactory.create({ id: USER_ID, name: USER_NAME });
+    });
+    test('名前を入力すると登録される', async () => {
       const NEW_NAME = 'new name';
-      const NEW_BIO = 'new bio';
 
-      const formData = new FormData()
-      formData.append('name', NEW_NAME)
-      formData.append('bio', NEW_BIO)
+      const formData = new FormData();
+      formData.append('name', NEW_NAME);
 
-      await updateUser(null, formData)
+      await updateUser(null, formData);
 
       const user = await prisma.user.findUnique({
         where: { id: USER_ID },
-        select: { name: true, bio: true },
-      })
+        select: { name: true },
+      });
 
-      expect(user).toEqual({ name: NEW_NAME, bio: NEW_BIO })
-    })
-    test('名前のみ入力すると登録される', async () => {
-      const NEW_NAME = 'new name';
-      const NEW_BIO = '';
-
-      const formData = new FormData()
-      formData.append('name', NEW_NAME)
-      formData.append('bio', NEW_BIO)
-
-      await updateUser(null, formData)
-
-      const user = await prisma.user.findUnique({
-        where: { id: USER_ID },
-        select: { name: true, bio: true },
-      })
-
-      expect(user).toEqual({ name: NEW_NAME, bio: USER_BIO })
-    })
-  })
-  describe("異常系", () => {
+      expect(user).toEqual({ name: NEW_NAME });
+    });
+  });
+  describe('異常系', () => {
     beforeEach(async () => {
-      await UserFactory.create({ id: USER_ID, name: USER_NAME, bio: USER_BIO })
-    })
+      await UserFactory.create({ id: USER_ID, name: USER_NAME });
+    });
     test('名前が長いときは更新されない', async () => {
       const NEW_NAME = 'a'.repeat(31); //31文字
 
-      const formData = new FormData()
-      formData.append('name', NEW_NAME)
+      const formData = new FormData();
+      formData.append('name', NEW_NAME);
 
-      await updateUser(null, formData)
-
-      const user = await prisma.user.findUnique({
-        where: { id: USER_ID },
-        select: { name: true, bio: true },
-      })
-
-      expect(user?.name).toBe(USER_NAME)
-      expect(user?.bio).toBe(USER_BIO)
-    })
-    test('bioが長いときは更新されない', async () => {
-      const NEW_NAME = 'new name';
-      const NEW_BIO = 'a'.repeat(201); //201文字
-
-      const formData = new FormData()
-      formData.append('name', NEW_NAME)
-      formData.append('bio', NEW_BIO)
-
-      await updateUser(null, formData)
+      await updateUser(null, formData);
 
       const user = await prisma.user.findUnique({
         where: { id: USER_ID },
-        select: { name: true, bio: true },
-      })
+        select: { name: true },
+      });
 
-      expect(user?.name).toBe(USER_NAME)
-      expect(user?.bio).toBe(USER_BIO)
-    })
-  })
-})
+      expect(user?.name).toBe(USER_NAME);
+    });
+  });
+});

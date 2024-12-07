@@ -11,5 +11,5 @@ export const threadConversationSchema = z.object({
 export const updateReactionSchema = z.object({
   postId: z.string(),
   reactionName: z.string(),
-  state: z.preprocess(val => val === 'true' ? true : false, z.boolean())
-})
+  state: z.preprocess((val) => (val === 'true' ? true : false), z.boolean()),
+});

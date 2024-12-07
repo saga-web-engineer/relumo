@@ -75,7 +75,7 @@ export const ThreadDrawer: FC = () => {
             <Button
               className={cn(
                 { 'cursor-not-allowed': !form.valid || isPending },
-                'block w-[min(100%,320px)] mx-auto py-3 md:text-lg md:py-4 md:mt-6 !h-auto text-foreground'
+                'block w-[min(100%,320px)] mx-auto py-3 md:text-lg md:py-4 md:mt-6 !h-auto text-foreground',
               )}
               disabled={!form.valid || isPending}
             >

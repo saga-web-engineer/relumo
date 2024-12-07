@@ -2,7 +2,7 @@
 
 import { getFormProps, getTextareaProps, useForm } from '@conform-to/react';
 import { getZodConstraint, parseWithZod } from '@conform-to/zod';
-import { Plus, X } from 'lucide-react';
+import { X } from 'lucide-react';
 import { useActionState, type FC } from 'react';
 
 import { Button } from '@/components/ui/button';
@@ -20,13 +20,19 @@ import { cn } from '@/lib/utils';
 import { sendMessage } from '@/app/threads/[threadId]/actions';
 import { threadConversationSchema } from '@/app/threads/[threadId]/schema';
 
-export const ThreadPostDrawer: FC<{ threadId: string }> = ({ threadId }) => {
+interface Props {
+  threadId: string;
+  children: React.ReactNode;
+  replyNumber?: number;
+}
+
+export const ThreadPostDrawer: FC<Props> = ({ threadId, children, replyNumber }) => {
   const [lastResult, action, isPending] = useActionState(
     async (_prev: unknown, action: FormData) => {
       await sendMessage(_prev, action);
       return null;
     },
-    null
+    null,
   );
 
   const [form, fields] = useForm({
@@ -44,11 +50,7 @@ export const ThreadPostDrawer: FC<{ threadId: string }> = ({ threadId }) => {
 
   return (
     <Drawer>
-      <DrawerTrigger asChild>
-        <Button className="fixed right-4 bottom-[calc(env(safe-area-inset-bottom)+1rem)] p-0 rounded-full size-[60px]">
-          <Plus className="!size-7 text-white" />
-        </Button>
-      </DrawerTrigger>
+      <DrawerTrigger asChild>{children}</DrawerTrigger>
       <DrawerContent className="h-full">
         <div className="w-[min(90%,600px)] mx-auto">
           <DrawerHeader className="flex justify-between items-center px-0">
@@ -62,6 +64,7 @@ export const ThreadPostDrawer: FC<{ threadId: string }> = ({ threadId }) => {
               {...getTextareaProps(fields.post)}
               key={fields.post.key}
               className="min-h-[160px] max-h-[300px] resize-none [field-sizing:content]"
+              defaultValue={replyNumber && `>> ${replyNumber}\n`}
             />
             <p className="text-sm text-red-500">{fields.post.errors}</p>
             <p className="text-sm text-muted-foreground">140文字以内</p>
@@ -69,7 +72,7 @@ export const ThreadPostDrawer: FC<{ threadId: string }> = ({ threadId }) => {
             <Button
               className={cn(
                 { 'cursor-not-allowed': !form.valid || isPending },
-                'block w-[min(100%,320px)] mt-4 mx-auto py-3 md:text-lg md:py-4 md:mt-6 !h-auto text-foreground'
+                'block w-[min(100%,320px)] mt-4 mx-auto py-3 md:text-lg md:py-4 md:mt-6 !h-auto text-foreground',
               )}
               disabled={!form.valid || isPending}
             >

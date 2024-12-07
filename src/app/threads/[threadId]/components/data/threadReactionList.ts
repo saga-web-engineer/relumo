@@ -1,20 +1,20 @@
 export const reactionList = [
   {
     name: 'love',
-    emoji: '😍'
+    emoji: '😍',
   },
   {
     name: 'angry',
-    emoji: '🤬'
+    emoji: '🤬',
   },
   {
     name: 'horror',
-    emoji: '😱'
+    emoji: '😱',
   },
   {
     name: 'smile',
-    emoji: '🥹'
+    emoji: '🥹',
   },
-] as const
+] as const;
 
-export type ReactionType = typeof reactionList[number]['name']
+export type ReactionType = (typeof reactionList)[number]['name'];

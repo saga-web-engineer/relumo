@@ -24,7 +24,7 @@ export const NavMenu: FC<Props> = ({ setOpen }) => {
                 pathname === item.href
                   ? 'text-primary bg-primary/10'
                   : 'text-muted-foreground hover:text-foreground',
-                'w-full flex items-center py-2 px-3 gap-3 transition-colors hover:text-primary sm:gap-5 sm:text-xl'
+                'w-full flex items-center py-2 px-3 gap-3 transition-colors hover:text-primary sm:gap-5 sm:text-xl',
               )}
               href={item.href}
               onClick={() => setOpen(false)}

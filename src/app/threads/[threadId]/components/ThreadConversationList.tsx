@@ -1,12 +1,15 @@
-import { AtSign, BadgeCheck, CalendarDays, Frown, UserRound } from 'lucide-react';
+import { AtSign, BadgeCheck, CalendarDays, Frown, Reply, UserRound } from 'lucide-react';
 import type { FC } from 'react';
 
+import { Button } from '@/components/ui/button';
+
 import prisma from '@/app/lib/db';
+import { ThreadConversationContent } from '@/app/threads/[threadId]/components/ThreadConversationContent';
+import { ThreadPostDrawer } from '@/app/threads/[threadId]/components/ThreadPostDrawer';
 import { ThreadPostPagination } from '@/app/threads/[threadId]/components/ThreadPostPagination';
 import { ThreadReactionList } from '@/app/threads/[threadId]/components/ThreadReactionList';
 import dayjs from '@/app/utils/dayjs';
 import { SHOW_PAGES } from '@/app/utils/siteSettings';
-import { ThreadConversationContent } from './ThreadConversationContent';
 
 interface Props {
   threadId: string;
@@ -48,7 +51,16 @@ export const ThreadConversationList: FC<Props> = async ({
           </li>
         ) : (
           posts.map((post, index) => (
-            <li className="border-t last-of-type:border-b p-4 pt-2" key={post.id}>
+            <li className="relative border-t last-of-type:border-b p-4 pt-2" key={post.id}>
+              <ThreadPostDrawer
+                threadId={threadId}
+                replyNumber={totalPosts - (currentPage - 1) * postsPerPage - index}
+              >
+                <Button size="icon" className="absolute right-2 top-2 size-6 rounded-full">
+                  <Reply color="white" />
+                </Button>
+              </ThreadPostDrawer>
+
               <div className="grid gap-1">
                 <div className="flex items-center gap-4">
                   <div className="text-sm text-muted-foreground">
