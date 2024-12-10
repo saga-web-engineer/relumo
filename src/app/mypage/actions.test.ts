@@ -73,5 +73,50 @@ describe('設定', () => {
 
       expect(user?.name).toBe(USER_NAME);
     });
+    test('名前に禁止ワード「リルモ」が含まれているとき', async () => {
+      const NEW_NAME = 'リルモ';
+
+      const formData = new FormData();
+      formData.append('name', NEW_NAME);
+
+      await updateUser(null, formData);
+
+      const user = await prisma.user.findUnique({
+        where: { id: USER_ID },
+        select: { name: true },
+      });
+
+      expect(user?.name).toBe(USER_NAME);
+    });
+    test('名前に禁止ワード「リルモ」が含まれていて且つ平仮名とカタカナが混在', async () => {
+      const NEW_NAME = 'リるモ';
+
+      const formData = new FormData();
+      formData.append('name', NEW_NAME);
+
+      await updateUser(null, formData);
+
+      const user = await prisma.user.findUnique({
+        where: { id: USER_ID },
+        select: { name: true },
+      });
+
+      expect(user?.name).toBe(USER_NAME);
+    });
+    test('名前に禁止ワード「Relumo」が含まれているとき', async () => {
+      const NEW_NAME = 'Relumo';
+
+      const formData = new FormData();
+      formData.append('name', NEW_NAME);
+
+      await updateUser(null, formData);
+
+      const user = await prisma.user.findUnique({
+        where: { id: USER_ID },
+        select: { name: true },
+      });
+
+      expect(user?.name).toBe(USER_NAME);
+    });
   });
 });
