@@ -78,7 +78,7 @@ export const ThreadDrawer: FC = () => {
                   'cursor-not-allowed disabled:pointer-events-auto hover:bg-primary':
                     !form.valid || isPending,
                 },
-                'flex items-center w-[min(100%,320px)] mx-auto py-3 md:text-lg md:py-4 md:mt-6 !h-auto text-foreground'
+                'flex items-center w-[min(100%,320px)] mx-auto py-3 md:text-lg md:py-4 md:mt-6 !h-auto text-foreground',
               )}
               disabled={!form.valid || isPending}
             >

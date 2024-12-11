@@ -37,12 +37,12 @@ export const ThreadReactionButton: FC<Props> = ({
       } else {
         return currentState.filter((user) => user.id !== currentUser.id);
       }
-    }
+    },
   );
 
   // 自分がリアクションをしているかどうか
   const optimisticReactionState = optimisticReactionUsers.some(
-    (user) => user.id === currentUser?.id
+    (user) => user.id === currentUser?.id,
   );
 
   return (

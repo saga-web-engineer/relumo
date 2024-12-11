@@ -32,7 +32,7 @@ export const ThreadPostDrawer: FC<Props> = ({ threadId, children, replyNumber })
       await sendMessage(_prev, action);
       return null;
     },
-    null
+    null,
   );
 
   const [form, fields] = useForm({
@@ -75,7 +75,7 @@ export const ThreadPostDrawer: FC<Props> = ({ threadId, children, replyNumber })
                   'cursor-not-allowed disabled:pointer-events-auto hover:bg-primary':
                     !form.valid || isPending,
                 },
-                'flex items-center w-[min(100%,320px)] mt-4 mx-auto py-3 md:text-lg md:py-4 md:mt-6 !h-auto text-foreground'
+                'flex items-center w-[min(100%,320px)] mt-4 mx-auto py-3 md:text-lg md:py-4 md:mt-6 !h-auto text-foreground',
               )}
               disabled={!form.valid || isPending}
             >
