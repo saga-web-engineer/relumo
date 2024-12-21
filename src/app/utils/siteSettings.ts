@@ -5,4 +5,4 @@ export const SITE_URL = 'https://relumo.vercel.app';
 export const SHOW_PAGES = 5; // ページネーションで表示させるページ数
 export const POSTS_PER_PAGE = 50; // 投稿数の１ページの最大表示数
 export const THREADS_PER_PAGE = 20; // 1ページのスレッド表示数
-export const SYSTEM_VERSION = '0.1.0';
+export const SYSTEM_VERSION = '1.0.0';

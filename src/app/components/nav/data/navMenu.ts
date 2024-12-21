@@ -1,8 +1,8 @@
 import {
   BookOpenText,
   ClipboardPen,
-  // Handshake,
-  // History,
+  Handshake,
+  History,
   LucideProps,
   UserRoundPlus,
 } from 'lucide-react';
@@ -35,14 +35,14 @@ export const navList: NavMenu[] = [
   //   href: '/contact',
   //   icon: Mail,
   // },
-  // {
-  //   label: '更新履歴',
-  //   href: '/history',
-  //   icon: History,
-  // },
-  // {
-  //   label: 'プライバシーポリシー',
-  //   href: '/policy',
-  //   icon: Handshake,
-  // },
+  {
+    label: '更新履歴',
+    href: '/history',
+    icon: History,
+  },
+  {
+    label: 'プライバシーポリシー',
+    href: '/policy',
+    icon: Handshake,
+  },
 ];

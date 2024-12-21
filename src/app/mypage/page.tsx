@@ -29,7 +29,17 @@ export default async function Setting() {
     where: {
       id: session.user.id,
     },
-    select: { name: true, id: true, createdAt: true, invitee: true, inviter: true },
+    select: {
+      name: true,
+      id: true,
+      createdAt: true,
+      invitee: {
+        orderBy: {
+          createdAt: 'desc',
+        },
+      },
+      inviter: true,
+    },
   });
 
   const { name, id, createdAt, invitee, inviter } = user || {};
