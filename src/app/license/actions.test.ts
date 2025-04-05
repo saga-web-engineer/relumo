@@ -1,8 +1,9 @@
-import { test, expect, vi, describe, beforeEach } from 'vitest';
-import prisma from '../lib/db';
-import { execSync } from 'child_process';
-import { getUserByInviteCode } from './actions';
 import { Prisma } from '@prisma/client';
+import { execSync } from 'child_process';
+import { beforeEach, describe, expect, test, vi } from 'vitest';
+
+import prisma from '../lib/db';
+import { getUserByInviteCode } from './actions';
 
 const INVITER_ID = 'inviterId'; // 招待コードの持ち主のID
 const NEW_USER_ID = 'newUserId'; // 招待コードを入力する人のID
@@ -10,6 +11,12 @@ const NEW_USER_ID = 'newUserId'; // 招待コードを入力する人のID
 vi.mock('../lib/auth', () => ({
   // 招待コードを入力する人がログインしている
   auth: () => ({ user: { id: NEW_USER_ID } }),
+  unstable_update: vi.fn(), // unstable_updateをモックとして追加
+}));
+
+// redirectをモック
+vi.mock('next/navigation', () => ({
+  redirect: vi.fn(),
 }));
 
 /**

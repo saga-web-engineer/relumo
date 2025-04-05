@@ -4,6 +4,7 @@ import Twitter from 'next-auth/providers/twitter';
 import NextAuth, { DefaultSession, User } from 'next-auth';
 
 import prisma from '@/app/lib/db';
+
 declare module 'next-auth' {
   interface Session {
     user: User &
